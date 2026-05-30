@@ -58,9 +58,9 @@ COOKIES_ENABLED = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "bmw_scrapper.pipelines.BmwScrapperPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "bmw_scrapper.pipelines.SQLitePipeline": 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

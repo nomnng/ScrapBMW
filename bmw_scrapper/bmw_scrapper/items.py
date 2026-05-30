@@ -6,7 +6,15 @@
 import scrapy
 
 
-class BmwScrapperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class CarItem(scrapy.Item):
+    registration = scrapy.Field()
+    model = scrapy.Field()
+    name = scrapy.Field()
+    registered = scrapy.Field()
+    mileage = scrapy.Field()
+    engine = scrapy.Field()
+    range = scrapy.Field()
+    exterior = scrapy.Field()
+    fuel = scrapy.Field()
+    transmission = scrapy.Field()
+    upholstery = scrapy.Field()
