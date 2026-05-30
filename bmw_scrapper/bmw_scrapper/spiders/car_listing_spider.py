@@ -20,8 +20,8 @@ class CarListingSpiderSpider(scrapy.Spider):
     allowed_domains = ["usedcars.bmw.co.uk"]
     start_urls = ["https://usedcars.bmw.co.uk"]
 
-    ITEMS_PER_PAGE = 12
-    PAGES_TO_SCRAP = 1
+    ITEMS_PER_PAGE = 23
+    PAGES_TO_SCRAP = 5
 
     def parse(self, response: Response):
         cookie_jar = CookieJar()
@@ -78,7 +78,7 @@ class CarListingSpiderSpider(scrapy.Spider):
                 car_item["upholstery"] = safe_get(uvl_ad_object, ["specification", "interior"])
 
                 car_item["fuel"] = safe_get(uvl_ad_object, ["engine", "fuel"])
-                if car_item["fuel"] == "Electric":
+                if car_item["fuel"].lower() == "electric":
                     car_item["range"] = safe_get(uvl_ad_object, ["battery", "range", "value"])
                 else:
                     car_item["engine"] = safe_get(uvl_ad_object, ["engine", "size", "cc"])

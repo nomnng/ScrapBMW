@@ -59,6 +59,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+   "bmw_scrapper.pipelines.DataProcessingPipeline": 200,
    "bmw_scrapper.pipelines.SQLitePipeline": 300,
 }
 

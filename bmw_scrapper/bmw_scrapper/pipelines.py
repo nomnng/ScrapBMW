@@ -1,12 +1,33 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+import sqlite3, logging
+from scrapy.exceptions import DropItem
 
 
-# useful for handling different item types with a single interface
-import sqlite3
-from itemadapter import ItemAdapter
+class DataProcessingPipeline:
+    REQUIRED_FIELDS = ["model", "name", "registration"]
+
+    def __init__(self):
+        self.logger = logging.getLogger(__name__)
+
+    def process_item(self, item, spider):
+        for field in self.REQUIRED_FIELDS:
+            if not item.get(field):
+                msg = f"Missing required field '{field}' in item: {item}"
+                self.logger.warning(msg)
+                raise DropItem(msg)
+
+        if item.get("mileage"):
+            try:
+                mileage_str = str(item["mileage"]).replace(",", "")
+                item["mileage"] = int(mileage_str)
+            except ValueError:
+                msg = f"Invalid mileage format: {item["mileage"]}. Dropping item."
+                self.logger.warning(msg)
+                raise DropItem(msg)
+
+        if item.get("fuel"):
+            item["fuel"] = item["fuel"].lower()
+
+        return item
 
 
 class SQLitePipeline:
