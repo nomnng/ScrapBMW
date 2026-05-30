@@ -39,7 +39,7 @@ class CarListingSpiderSpider(scrapy.Spider):
         for i in range(self.PAGES_TO_SCRAP):
             page = i + 1
             yield response.follow(
-                url=f"/vehicle/api/list/?size={self.ITEMS_PER_PAGE}&page={page}",
+                url=f"/vehicle/api/list/?payment_type=cash&size={self.ITEMS_PER_PAGE}&page={page}",
                 method="GET",
                 headers={
                     "X-Csrftoken": csrf_token,
@@ -78,7 +78,7 @@ class CarListingSpiderSpider(scrapy.Spider):
                 car_item["upholstery"] = safe_get(uvl_ad_object, ["specification", "interior"])
 
                 car_item["fuel"] = safe_get(uvl_ad_object, ["engine", "fuel"])
-                if car_item["fuel"].lower() == "electric":
+                if car_item["fuel"] and car_item["fuel"].lower() == "electric":
                     car_item["range"] = safe_get(uvl_ad_object, ["battery", "range", "value"])
                 else:
                     car_item["engine"] = safe_get(uvl_ad_object, ["engine", "size", "cc"])
