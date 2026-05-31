@@ -72,10 +72,14 @@ class CarListingSpiderSpider(scrapy.Spider):
                 car_item["name"] = safe_get(uvl_ad_object, ["specification", "derivative"])
                 car_item["registration"] = safe_get(uvl_ad_object, ["identification", "registration"])
                 car_item["registered"] = safe_get(uvl_ad_object, ["dates", "registration"])
-                car_item["mileage"] = safe_get(uvl_ad_object, ["condition_and_state", "mileage"])
                 car_item["exterior"] = safe_get(uvl_ad_object, ["colour", "manufacturer_colour"])
                 car_item["transmission"] = safe_get(uvl_ad_object, ["specification", "transmission"])
                 car_item["upholstery"] = safe_get(uvl_ad_object, ["specification", "interior"])
+
+                if safe_get(uvl_ad_object, ["condition_and_state", "moa"]):
+                    car_item["mileage"] = "MOA"
+                else:
+                    car_item["mileage"] = safe_get(uvl_ad_object, ["condition_and_state", "mileage"])
 
                 car_item["fuel"] = safe_get(uvl_ad_object, ["engine", "fuel"])
                 if car_item["fuel"] and car_item["fuel"].lower() == "electric":

@@ -15,12 +15,13 @@ class DataProcessingPipeline:
                 self.logger.warning(msg)
                 raise DropItem(msg)
 
-        if item.get("mileage"):
+        mileage = item.get("mileage")
+        if mileage and mileage != "MOA":
             try:
-                mileage_str = str(item["mileage"]).replace(",", "")
+                mileage_str = str(mileage).replace(",", "")
                 item["mileage"] = int(mileage_str)
             except ValueError:
-                msg = f"Invalid mileage format: {item["mileage"]}. Dropping item."
+                msg = f"Invalid mileage format: {mileage}. Dropping item."
                 self.logger.warning(msg)
                 raise DropItem(msg)
 
